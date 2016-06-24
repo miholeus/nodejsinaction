@@ -5,29 +5,6 @@ var nickNames = {};
 var namesUsed = [];
 var currentRoom = {};
 
-exports.listen = function(server) {
-    // Запуск Socket.io-сервера, чтобы выполняться вместе с существующим HTTP-сервером
-    io = socketio.listen(server);
-    io.set('log level', 1);
-    // Определение способа обработки каждого пользовательского соединения
-    io.sockets.on('connection', function(socket) {
-        // присваивание подключившемуся пользователю имени guest
-        guestNumber = assignGuestName(socket, guestNumber, nickNames, namesUsed);
-        // помещение подключившегося пользователя в комнату Lobby
-        joinRoom(socket, 'Lobby');
-        // Обработка пользовательских сообщений, попыток изменения имени и попыток создания/изменения комнат
-        handleMessageBroadcasting(socket, nickNames);
-        handleNameChangeAttempts(socket, nickNames, namesUsed);
-        handleRoomJoining(socket);
-        // Вывод списка занятых комнат по запросу пользователя
-        socket.on('rooms', function() {
-            socket.emit('rooms', io.sockets.manager.rooms);
-        });
-        // определение логики очистки, выполняемой после выхода пользователя из чата
-        handleClientDisconnection(socket, nickNames, namesUsed);
-    });
-};
-
 function assignGuestName(socket, guestNumber, nickNames, namesUsed) {
     var name = 'Guest' + guestNumber;
     // Связывание гостевого имени с идентификатором клиентского подключения
@@ -128,3 +105,26 @@ function handleClientDisconnection(socket, nickNames, namesUsed) {
         delete nickNames[socket.id];
     })
 }
+
+exports.listen = function(server) {
+    // Запуск Socket.io-сервера, чтобы выполняться вместе с существующим HTTP-сервером
+    io = socketio.listen(server);
+    io.set('log level', 1);
+    // Определение способа обработки каждого пользовательского соединения
+    io.sockets.on('connection', function(socket) {
+        // присваивание подключившемуся пользователю имени guest
+        guestNumber = assignGuestName(socket, guestNumber, nickNames, namesUsed);
+        // помещение подключившегося пользователя в комнату Lobby
+        joinRoom(socket, 'Lobby');
+        // Обработка пользовательских сообщений, попыток изменения имени и попыток создания/изменения комнат
+        handleMessageBroadcasting(socket, nickNames);
+        handleNameChangeAttempts(socket, nickNames, namesUsed);
+        handleRoomJoining(socket);
+        // Вывод списка занятых комнат по запросу пользователя
+        socket.on('rooms', function() {
+            socket.emit('rooms', io.sockets.manager.rooms);
+        });
+        // определение логики очистки, выполняемой после выхода пользователя из чата
+        handleClientDisconnection(socket, nickNames, namesUsed);
+    });
+};
