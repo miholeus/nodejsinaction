@@ -9,7 +9,6 @@ http.createServer(function(req, res){
                 res.end('Server error');
             } else {
                 var titles = JSON.parse(data.toString());
-                titles = Array.sh
                 fs.readFile('./template.html', function(err, data){
                     if (err) {
                         console.error(err);
