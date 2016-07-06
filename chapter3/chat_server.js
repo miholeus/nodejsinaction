@@ -22,6 +22,16 @@ channel.on('join', function(id, client){
     this.on('broadcast', this.subscriptions[id]);
 });
 
+channel.on('leave', function(id){
+    channel.removeListener('broadcast', this.subscriptions[id]);
+    channel.emit('broadcast', id, id + " has left the chat.\n");
+});
+
+channel.on('shutdown', function(){
+    channel.emit("broadcast", '', "Chat has shut down\n");
+    channel.removeAllListeners('broadcast');
+});
+
 var server = net.createServer(function(client){
     var id = client.remoteAddress + ':' + client.remotePort;
     /*
@@ -37,7 +47,19 @@ var server = net.createServer(function(client){
         data = data.toString();
         // Генерируем событие broadcast для канала, задавая идентификатор пользователя и сообщение,
         // когда какой-либо пользователь отсылает данные
+        if (data.trim() == '/quit') {
+            client.destroy();
+            return;
+        }
+        if (data.trim() == '/shutdown') {
+            channel.emit("shutdown");
+        }
         channel.emit('broadcast', id, data);
+    });
+
+    client.on('close', function(){
+        // Генерирование события leave после отключения клиента
+        channel.emit('leave', id);
     });
 });
 
