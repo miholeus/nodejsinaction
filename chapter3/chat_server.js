@@ -2,6 +2,7 @@ var events = require('events');
 var net = require('net');
 
 var channel = new events.EventEmitter();
+channel.setMaxListeners(50);
 channel.clients = {};
 channel.subscriptions = {};
 
@@ -11,6 +12,9 @@ channel.on('join', function(id, client){
     this.clients[id] = client;
     var self = this;
     console.log("joined " + id);
+    var welcome = "Welcome!\n"
+            + "Guests online: " + this.listeners('broadcast').length;
+    client.write(welcome + "\n");
     this.subscriptions[id] = function(senderId, message) {
         // Игнорируем данные, непосредственно транслируемые пользователем
         if (id != senderId) {
