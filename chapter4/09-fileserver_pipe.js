@@ -13,6 +13,11 @@ var server = http.createServer(function(req, res){
         if (exists) {
             var stream = fs.createReadStream(path);
             stream.pipe(res);
+
+            stream.on('error', function(err){
+                res.statusCode = 500;
+                res.end('Internal Server Error');
+            });
         } else {
             res.statusCode = 404;
             res.end("404 Not Found");
