@@ -1,0 +1,6 @@
+{
+  "name": "chapter5",
+  "dependencies": {
+    "mysql": "~2.1.1"
+  }
+}
