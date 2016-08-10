@@ -3,6 +3,8 @@
   "dependencies": {
     "mysql": "~2.1.1",
     "pg": "~6.0.3",
-    "redis": "~2.6.2"
+    "redis": "~2.6.2",
+    "mongodb": "~2.2.5",
+    "mongoose": "~4.5.8"
   }
 }
