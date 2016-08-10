@@ -2,6 +2,7 @@
   "name": "chapter5",
   "dependencies": {
     "mysql": "~2.1.1",
-    "pg": "~6.0.3"
+    "pg": "~6.0.3",
+    "redis": "~2.6.2"
   }
 }
