@@ -5,6 +5,9 @@
     "cookie-parser": "~1.4.3",
     "body-parser": "~1.15.2",
     "connect-query": "~0.2",
-    "connect-logger": "~0.0.1"
+    "connect-logger": "~0.0.1",
+    "method-override": "~2.3.6",
+    "connect-favicons": "~0.1.5",
+    "connect-session": "~0.0.1"
   }
 }
