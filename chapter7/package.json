@@ -8,6 +8,7 @@
     "connect-logger": "~0.0.1",
     "method-override": "~2.3.6",
     "connect-favicons": "~0.1.5",
-    "connect-session": "~0.0.1"
+    "connect-session": "~0.0.1",
+    "basic-auth-connect": "~1.0.0"
   }
 }
