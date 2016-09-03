@@ -9,6 +9,10 @@
     "method-override": "~2.3.6",
     "connect-favicons": "~0.1.5",
     "connect-session": "~0.0.1",
-    "basic-auth-connect": "~1.0.0"
+    "basic-auth-connect": "~1.0.0",
+    "error-handler": "~1.0.0",
+    "compression": "~1.6.2",
+    "serve-static": "~1.0.4",
+    "serve-index": "~1.8.0"
   }
 }
