@@ -18,4 +18,10 @@ router.get('/', function(req, res){
     })
 });
 
+router.get('/upload', function(req, res){
+    res.render('photos/upload', {
+        title: 'Photo upload'
+    })
+});
+
 module.exports = router;
