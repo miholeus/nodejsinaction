@@ -11,9 +11,14 @@
     <% photos.forEach(function(photo) {%>
         <div class="photo">
             <h2><%=photo.name%></h2>
-            <img src="<%= photo.path %>" alt="">
+            <a href="/photo/<%= photo.id %>/download">
+                <img src="/photos/<%= photo.path %>" alt="">
+            </a>
         </div>
     <%})%>
+</div>
+<div id="upload">
+    <a href="/upload">Upload Photo</a>
 </div>
 </body>
 </html>
