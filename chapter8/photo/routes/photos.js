@@ -61,5 +61,21 @@ router.post('/upload', function(req, res, next){
         });
     });
 });
+var counter = 0;
+router.get('/photo/:id/download', function(req, res, next){
+    var id = req.params.id;
+    var dir = req.app.get('photos');
+    // Загружаем запись для фотографии
+    Photo.findById(id, function(err, photo){
+        if (err) return next(err);
+        var path = join(dir, photo.path);
+        // Передаем файл
+        if (counter == 20) return next(new Error("Limit exceeded"));
+        //res.download(path, photo.name + '.jpeg');
+        res.sendFile(path, function(){
+            console.log("number of downloaded files: " + ++counter);
+        });
+    });
+});
 
 module.exports = router;
