@@ -59,6 +59,44 @@ User.prototype.hashPassword = function(fn) {
     });
 };
 
+User.getByName = function(name, fn) {
+    User.getId(name, function(err, id){
+        if (err) return fn(err);
+        // Выборка сведений о пользователе по идентификатору
+        User.get(id, fn);
+    });
+};
+
+User.getId = function(name, fn) {
+    // Получение идентификатора, индексированного по имени
+    db.get('user:id:' + name, fn);
+};
+
+User.get = function(id, fn) {
+    db.hgetall('user:' + id, function(err, user){
+        if (err) return fn(err);
+        // Преобразование объекта в новый объект User
+        fn(null, new User(user));
+    })
+};
+
+User.authenticate = function(name, pass, fn) {
+    // Поиск пользователя по имени
+    User.getByName(name, function(err, user){
+        if (err) return fn(err);
+        if (!user.id) return fn();
+        // Хеширование данного пароля
+        bcrypt.hash(pass, user.salt, function(err, hash){
+            if (err) return fn(err);
+            // Соответствие найдено
+            if (hash == user.pass) return fn(null, user);
+            // Пароль неверный
+            fn();
+        });
+    });
+};
+
+/*
 var tobi = new User({
     name: 'Tobi',
     pass: '12345',
@@ -68,4 +106,4 @@ var tobi = new User({
 tobi.save(function(err){
     if (err) throw err;
     console.log("user id %d", tobi.id);
-});
+});*/
