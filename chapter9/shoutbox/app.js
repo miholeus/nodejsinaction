@@ -13,6 +13,7 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var register = require('./routes/register');
 var messages = require('./lib/messages');
+var userMiddleware = require('./lib/middleware/user');
 
 var app = express();
 
@@ -43,6 +44,8 @@ app.use(session({
 }));
 app.use(messages);
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(userMiddleware);
 
 app.use('/', routes);
 app.use('/register', register);
