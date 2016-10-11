@@ -1,10 +1,37 @@
 var express = require('express');
 var router = express.Router();
 var User = require('../lib/user');
+var Entry = require('../lib/entry');
+var validate = require('../lib/middleware/validate');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-    res.render('index', {title: 'Express'});
+    Entry.getRange(0, -1, function(err, entries){
+        if (err) return next(err);
+        res.render('index', {
+            title: 'Entries',
+            entries: entries
+        });
+    });
+});
+
+router.get('/post',function(req, res){
+    res.render('post', {title: 'Post'});
+});
+
+router.post('/post', validate.required('entry[title]'), validate.lengthAbove('entry[title]', 4), function(req, res, next){
+    var data = req.body.entry;
+
+    var entry = new Entry({
+        "username": res.locals.user.name,
+        "title": data.title,
+        "body": data.body
+    });
+
+    entry.save(function(err){
+        if (err) return next(err);
+        res.redirect('/')
+    });
 });
 
 router.get('/login', function (req, res, next){
