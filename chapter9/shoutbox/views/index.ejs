@@ -7,7 +7,7 @@
 <body>
 <h1><%= title %></h1>
 
-<% include menu %>
+<% include menu.ejs %>
 
 <% entries.forEach(function(entry){ %>
     <div class="entry">
@@ -16,6 +16,8 @@
         <p>Posted by <%= entry.username %></p>
     </div>
 <% })%>
+
+<% include pager.ejs %>
 
 </body>
 </html>
