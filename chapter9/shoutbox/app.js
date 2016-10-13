@@ -12,6 +12,7 @@ var client = redis.createClient(6379, 'localhost');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var register = require('./routes/register');
+var api = require('./routes/api');
 var messages = require('./lib/messages');
 var userMiddleware = require('./lib/middleware/user');
 
@@ -47,6 +48,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(userMiddleware);
 
+app.use('/api', api);
 app.use('/', routes);
 app.use('/register', register);
 app.use('/users', users);
