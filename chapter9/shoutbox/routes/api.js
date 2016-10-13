@@ -46,7 +46,24 @@ router.get('/entries', page(Entry.count), function(req, res, next){
     var page = req.page;
     Entry.getRange(page.from, page.to, function(err, entries){
         if (err) return next(err);
-        res.json(entries);
+        res.format({
+            'application/json': function(){
+                // JSON-ответ
+                res.send(entries);
+            },
+            'application/xml': function(){
+                // XML-ответ
+                res.write('<entries>\n');
+                entries.forEach(function(entry){
+                    res.write("<entry>\n");
+                    res.write("<title>" + entry.title + "</title>\n");
+                    res.write("<body>" + entry.body + "</body>\n");
+                    res.write("<username>" + entry.username + "</username>\n");
+                    res.write("</entry>\n");
+                });
+                res.end('</entries>\n');
+            }
+        });
     });
 });
 
