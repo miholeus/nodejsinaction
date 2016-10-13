@@ -53,15 +53,7 @@ router.get('/entries', page(Entry.count), function(req, res, next){
             },
             'application/xml': function(){
                 // XML-ответ
-                res.write('<entries>\n');
-                entries.forEach(function(entry){
-                    res.write("<entry>\n");
-                    res.write("<title>" + entry.title + "</title>\n");
-                    res.write("<body>" + entry.body + "</body>\n");
-                    res.write("<username>" + entry.username + "</username>\n");
-                    res.write("</entry>\n");
-                });
-                res.end('</entries>\n');
+                res.render('entries/xml', {entries: entries});
             }
         });
     });
