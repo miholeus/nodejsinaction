@@ -2,6 +2,10 @@ var express = require('express');
 var router = express.Router();
 var basicAuth = require('basic-auth');
 var User = require('../lib/user');
+var entryMiddleware = require('../lib/middleware/entry');
+var userMiddleware = require('../lib/middleware/user');
+var Entry = require('../lib/entry');
+var page = require('../lib/middleware/page');
 
 exports.auth = function(req, res, next) {
     function unauthorized(res) {
@@ -18,6 +22,7 @@ exports.auth = function(req, res, next) {
     User.authenticate(user.name, user.pass, function(err, user){
         if (err) return next(err);
         if (user) {
+            req.session.uid = user.id;
             next();
         } else {
             return unauthorized(res);
@@ -34,5 +39,15 @@ exports.user = function(req, res, next) {
 };
 
 router.get('/user/:id', this.auth, this.user);
+
+router.post('/entry', this.auth, userMiddleware, entryMiddleware);
+
+router.get('/entries', page(Entry.count), function(req, res, next){
+    var page = req.page;
+    Entry.getRange(page.from, page.to, function(err, entries){
+        if (err) return next(err);
+        res.json(entries);
+    });
+});
 
 module.exports = router;

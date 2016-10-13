@@ -4,6 +4,7 @@ var User = require('../lib/user');
 var Entry = require('../lib/entry');
 var validate = require('../lib/middleware/validate');
 var page = require('../lib/middleware/page');
+var entryMiddleware = require('../lib/middleware/entry');
 
 /* GET home page. */
 router.get('/', page(Entry.count, 5), function (req, res, next) {
@@ -21,20 +22,7 @@ router.get('/post',function(req, res){
     res.render('post', {title: 'Post'});
 });
 
-router.post('/post', validate.required('entry[title]'), validate.lengthAbove('entry[title]', 4), function(req, res, next){
-    var data = req.body.entry;
-
-    var entry = new Entry({
-        "username": res.locals.user.name,
-        "title": data.title,
-        "body": data.body
-    });
-
-    entry.save(function(err){
-        if (err) return next(err);
-        res.redirect('/')
-    });
-});
+router.post('/post', validate.required('entry[title]'), validate.lengthAbove('entry[title]', 4), entryMiddleware);
 
 router.get('/login', function (req, res, next){
     res.render('login', {title: 'Login'});
