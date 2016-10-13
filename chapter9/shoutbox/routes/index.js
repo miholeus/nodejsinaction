@@ -9,6 +9,7 @@ var entryMiddleware = require('../lib/middleware/entry');
 /* GET home page. */
 router.get('/', page(Entry.count, 5), function (req, res, next) {
     var page = req.page;
+    throw new Error("some error");
     Entry.getRange(page.from, page.to, function(err, entries){
         if (err) return next(err);
         res.render('index', {
