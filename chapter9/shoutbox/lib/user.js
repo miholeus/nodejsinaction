@@ -96,6 +96,13 @@ User.authenticate = function(name, pass, fn) {
     });
 };
 
+User.prototype.toJSON = function(){
+    return {
+        id: this.id,
+        name: this.name
+    }
+};
+
 /*
 var tobi = new User({
     name: 'Tobi',
