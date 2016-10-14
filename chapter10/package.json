@@ -1,0 +1,17 @@
+{
+  "name": "chapter10",
+  "version": "1.0.0",
+  "description": "",
+  "main": "01-test.js",
+  "dependencies": {
+    "should": "^11.1.1",
+    "tobi": "^0.3.2",
+    "vows": "^0.8.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
