@@ -1,0 +1,17 @@
+{
+  "name": "tips",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "node test/tips.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "should": "^11.1.1"
+  }
+}
